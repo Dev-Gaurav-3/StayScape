@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Listing — StayScape</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+    <a class="navbar-brand" href="/listings">Stay<span>Scape</span></a>
+
+    <form class="navbar-search" action="/listings" method="get">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search destinations, places…"
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
+            autocomplete="off"
+        >
+        <button class="navbar-search-btn" type="submit">&#128269;</button>
+    </form>
+
+    <form action="/listings/new" method="get">
+        <button class="btn btn-primary btn-sm">+ New Listing</button>
+    </form>
+</nav>
+
+    <!-- Main Content -->
+    <div class="page-container">
+
+        <a class="back-link" href="/listings">Back to listings</a>
+
+        <div class="form-card">
+            <h2 class="form-title">List your place</h2>
+            <p class="form-subtitle">Share your space with travellers around the world.</p>
+
+            <div class="form-divider"></div>
+
+            <form action="/listings" method="post">
+
+                <div class="form-group">
+                    <label class="form-label" for="title">Title</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="title"
+                        placeholder="e.g. Cozy mountain cabin"
+                        name="listings[title]"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea
+                        class="form-control"
+                        id="description"
+                        placeholder="Tell guests what makes your place special…"
+                        name="listings[description]"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="image">Image URL</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="image"
+                        placeholder="https://example.com/photo.jpg"
+                        name="listings[image]"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="price">Price per night (₹)</label>
+                    <input
+                        class="form-control"
+                        type="number"
+                        id="price"
+                        placeholder="e.g. 2500"
+                        name="listings[price]"
+                        min="0"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="location">City / Location</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="location"
+                            placeholder="e.g. Manali"
+                            name="listings[location]"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="country">Country</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="country"
+                            placeholder="e.g. India"
+                            name="listings[country]"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">🏠 Add Listing</button>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 <a href="/listings">StayScape</a>. All rights reserved.
+    </footer>
+
+</body>
+</html>

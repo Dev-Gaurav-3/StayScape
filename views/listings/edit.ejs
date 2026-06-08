@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Listing — StayScape</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+    <a class="navbar-brand" href="/listings">Stay<span>Scape</span></a>
+
+    <form class="navbar-search" action="/listings" method="get">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search destinations, places…"
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
+            autocomplete="off"
+        >
+        <button class="navbar-search-btn" type="submit">&#128269;</button>
+    </form>
+
+    <form action="/listings/new" method="get">
+        <button class="btn btn-primary btn-sm">+ New Listing</button>
+    </form>
+</nav>
+
+    <!-- Main Content -->
+    <div class="page-container">
+
+        <a class="back-link" href="/listings/<%= listing._id %>">Back to listing</a>
+
+        <div class="form-card">
+            <h2 class="form-title">Edit your listing</h2>
+            <p class="form-subtitle">Update the details below to keep your listing accurate.</p>
+
+            <div class="form-divider"></div>
+
+            <form method="post" action="/listings/<%= listing._id %>?_method=PUT">
+
+                <div class="form-group">
+                    <label class="form-label" for="title">Title</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="title"
+                        value="<%= listing.title %>"
+                        placeholder="Enter Title"
+                        name="listings[title]"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea
+                        class="form-control"
+                        id="description"
+                        name="listing[description]"
+                    ><%= listing.description %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="image">Image URL</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="image"
+                        value="<%= listing.image.url %>"
+                        placeholder="https://example.com/photo.jpg"
+                        name="listing[image]"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="price">Price per night (₹)</label>
+                    <input
+                        class="form-control"
+                        type="number"
+                        id="price"
+                        name="listing[price]"
+                        value="<%= listing.price %>"
+                        min="0"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="location">City / Location</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="location"
+                            name="listing[location]"
+                            value="<%= listing.location %>"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="country">Country</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="country"
+                            name="listing[country]"
+                            value="<%= listing.country %>"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">✏️ Save Changes</button>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 <a href="/listings">StayScape</a>. All rights reserved.
+    </footer>
+
+</body>
+</html>

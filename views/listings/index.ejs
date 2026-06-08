@@ -1,0 +1,78 @@
+<% layout("layouts/boiler.ejs")%>
+<link rel="stylesheet" href="/css/style.css">
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+    <a class="navbar-brand" href="/listings">Stay<span>Scape</span></a>
+
+    <form class="navbar-search" action="/listings" method="get">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search destinations, places…"
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
+            autocomplete="off"
+        >
+        <button class="navbar-search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass" style="color: #ffffff"></i>
+        </button>
+    </form>
+
+    <form action="/listings/new" method="get">
+        <button class="btn btn-primary btn-sm">+ New Listing</button>
+    </form>
+</nav>
+
+    <!-- Main Content -->
+    <div class="page-container">
+
+        <div class="listings-header">
+            <h1 class="page-heading">Explore <span>Places</span></h1>
+            <span class="badge">All Listings</span>
+        </div>
+
+
+        <% if (allListings.length === 0) { %>
+            <div class="empty-state">
+                <div class="empty-icon">🔍</div>
+                <h3>No listings found</h3>
+                <p>No results for "<strong><%= search %></strong>". Try a different search.</p>
+                <a href="/listings" class="btn btn-outline">Clear Search</a>
+            </div>
+        <% } else { %>
+            <% if (search) { %>
+                <p class="search-result-info">
+                    Showing <strong><%= allListings.length %></strong> result<%= allListings.length > 1 ? 's' : '' %> for "<strong><%= search %></strong>"
+                    &nbsp;<a href="/listings" class="clear-search">✕ Clear</a>
+                </p>
+            <% } %>
+
+            <div class="listings-grid">
+                <% for(let listing of allListings){ %>
+                <a class="listing-card" href="/listings/<%= listing._id %>">
+                    <div class="listing-card-thumb">
+                        <% if (listing.image && listing.image.url) { %>
+                            <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+                        <% } else { %>
+                            🏠
+                        <% } %>
+                    </div>
+                    <div class="listing-card-body">
+                        <div class="listing-card-title"><%= listing.title %></div>
+                        <div class="listing-card-location">📍 <%= listing.location %>, <%= listing.country %></div>
+                    </div>
+                </a>
+                <% } %>
+            </div>
+        <% } %>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2026 <a href="/listings">StayScape</a>. All rights reserved.
+    </footer>
+
+</body>
+</html>

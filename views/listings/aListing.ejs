@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= aListing.title %> — StayScape</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+    <a class="navbar-brand" href="/listings">Stay<span>Scape</span></a>
+
+    <form class="navbar-search" action="/listings" method="get">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search destinations, places…"
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
+            autocomplete="off"
+        >
+        <button class="navbar-search-btn" type="submit">&#128269;</button>
+    </form>
+
+    <form action="/listings/new" method="get">
+        <button class="btn btn-primary btn-sm">+ New Listing</button>
+    </form>
+</nav>
+
+    <!-- Main Content -->
+    <div class="page-container">
+
+        <!-- Back -->
+        <a class="back-link" href="/listings">Back to listings</a>
+
+        <!-- Hero Image -->
+        <div class="listing-hero">
+            <% if (aListing.image && aListing.image.url) { %>
+                <img src="<%= aListing.image.url %>" alt="<%= aListing.title %>">
+            <% } else { %>
+                🏠
+            <% } %>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="listing-details-grid">
+
+            <!-- Left: Info -->
+            <div class="listing-info-main">
+                <h1 class="listing-title"><%= aListing.title %></h1>
+                <p class="listing-location">📍 <%= aListing.location %>, <%= aListing.country %></p>
+                <p class="listing-description"><%= aListing.description %></p>
+            </div>
+
+            <!-- Right: Price Box -->
+            <div class="price-box">
+                <div class="price">
+                    &#8377;<%= aListing.price.toLocaleString("en-IN") %>
+                    <span>/ night</span>
+                </div>
+                <div class="price-note">Taxes and fees may apply</div>
+
+                <button class="btn btn-primary btn-full">Reserve</button>
+
+                <div class="listing-action-row">
+                    <form action="/listings/<%= aListing._id %>/edit" method="get" style="flex:1">
+                        <button class="btn btn-outline" style="width:100%">✏️ Edit</button>
+                    </form>
+                    <form action="/listings/<%= aListing._id %>?_method=DELETE" method="post" style="flex:1">
+                        <button class="btn btn-danger" style="width:100%">🗑 Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 <a href="/listings">StayScape</a>. All rights reserved.
+    </footer>
+
+</body>
+</html>
