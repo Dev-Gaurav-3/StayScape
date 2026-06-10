@@ -23,9 +23,12 @@
         <button class="navbar-search-btn" type="submit">&#128269;</button>
     </form>
 
-    <form action="/listings/new" method="get">
-        <button class="btn btn-primary btn-sm">+ New Listing</button>
-    </form>
+    <div style="display:flex; align-items:center; gap:12px;">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+        <form action="/listings/new" method="get">
+            <button class="btn btn-primary btn-sm">+ New Listing</button>
+        </form>
+    </div>
 </nav>
 
     <!-- Main Content -->
@@ -125,6 +128,6 @@
     <footer class="footer">
         &copy; 2025 <a href="/listings">StayScape</a>. All rights reserved.
     </footer>
-
+    <%- include("../includes/darkscript.ejs")%>
 </body>
 </html>
