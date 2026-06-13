@@ -5,7 +5,7 @@ const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")  // For duplicate layouts //
-
+const wrapAsync = require("./utils/wrapasync.js");
 
 let port = 3000;
 
@@ -85,13 +85,14 @@ app.get("/listings/:id",async(req,res)=>{
 
 // CREATE ROUTE //
 
-app.post("/listings",async (req,res) =>{
+app.post("/listings", wrapAsync(async(req,res,next) =>{
     // let {title,desc,img,price,loc,country} = req.body;
     // OR //
     const newListing = new Listing(req.body.listings);
     await newListing.save();
     res.redirect("/listings");
-});
+    })
+);
 
 app.get("/listings/:id/edit",async (req,res)=>{
     let {id} = req.params;
@@ -99,17 +100,15 @@ app.get("/listings/:id/edit",async (req,res)=>{
     res.render("./listings/edit.ejs",{listing}); 
 });
 
-app.put("/listings/:id",async (req,res)=>{
-    let {id} = req.params;
-    console.log(req.body);
-    const updated = await Listing.findByIdAndUpdate(
-        id,
-        { ...req.body.listing },
-        { new: true }
-    );
+app.put("/listings/:id", async (req, res) => {
+    let { id } = req.params;
+    let updatedData = req.body.listing;
+    if (!updatedData.image || !updatedData.image.url || updatedData.image.url.trim() === "") {
+        delete updatedData.image;
+    }
 
-    console.log("Updated:", updated);
-    res.redirect("/listings");
+    await Listing.findByIdAndUpdate(id, updatedData, { runValidators: true, new: true });
+    res.redirect(`/listings/${id}`);
 });
 
 //DELETE ROUTE //
@@ -118,4 +117,10 @@ app.delete("/listings/:id",async (req,res)=>{
     let {id} = req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
+});
+
+// Error Handling //
+
+app.use((err,req,res,next)=>{
+    res.send("Something went wrong");
 });

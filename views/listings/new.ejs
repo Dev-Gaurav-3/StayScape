@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Listing — StayScape</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -42,18 +43,13 @@
 
             <div class="form-divider"></div>
 
-            <form action="/listings" method="post">
+            <form action="/listings" method="post" novalidate class="needs-validation">
 
                 <div class="form-group">
                     <label class="form-label" for="title">Title</label>
-                    <input
-                        class="form-control"
-                        type="text"
-                        id="title"
-                        placeholder="e.g. Cozy mountain cabin"
-                        name="listings[title]"
-                        required
-                    >
+                    <input class="form-control"  type="text" id="title" placeholder="e.g. Cozy mountain cabin" name="listings[title]" required>
+                    <div class="valid-feedback">Title looks good</div>
+                    <div class="invalid-feedback">Title looks bad</div>
                 </div>
 
                 <div class="form-group">
@@ -88,6 +84,7 @@
                         min="0"
                         required
                     >
+                    <div class="invalid-feedback">Please enter a valid price</div>
                 </div>
 
                 <div class="form-row">
@@ -101,6 +98,7 @@
                             name="listings[location]"
                             required
                         >
+                    <div class="invalid-feedback">Location should be valid</div>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="country">Country</label>
@@ -112,6 +110,7 @@
                             name="listings[country]"
                             required
                         >
+                    <div class="invalid-feedback">Country should be valid</div>
                     </div>
                 </div>
 
@@ -126,8 +125,10 @@
 
     <!-- Footer -->
     <footer class="footer">
-        &copy; 2025 <a href="/listings">StayScape</a>. All rights reserved.
+        &copy; 2026 <a href="/listings">StayScape</a>. All rights reserved.
     </footer>
     <%- include("../includes/darkscript.ejs")%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
