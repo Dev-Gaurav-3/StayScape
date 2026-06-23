@@ -6,6 +6,8 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")  // For duplicate layouts //
 const wrapAsync = require("./utils/wrapasync.js");
+const ExpressError = require("./utils/ExpressError.js");
+const { listingSchema } = require("./schemaValidator.js");
 
 let port = 3000;
 
@@ -16,6 +18,17 @@ app.listen(port,() =>{
 app.get("/",(req,res)=>{
     res.send("Working");
 });
+
+const validateListing = (req,res,next)=>{
+    // let result = listingSchema.validate(req.body);
+    // console.log(result);
+    let { error } = listingSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400,error);
+    }else{
+        next();
+    }
+};
 
 main() .then(() =>{
     console.log("Connected to DB");
@@ -88,19 +101,26 @@ app.get("/listings/:id",async(req,res)=>{
 app.post("/listings", wrapAsync(async(req,res,next) =>{
     // let {title,desc,img,price,loc,country} = req.body;
     // OR //
+    // if(!req.body.listings){    //? USING SCHEMA VALIDATOR INSTEAD OF THIS => JOI package// 
+    //     throw new ExpressError(400,"Send valid data for listing");
+    // }
+    validateListing;
     const newListing = new Listing(req.body.listings);
     await newListing.save();
     res.redirect("/listings");
     })
 );
 
-app.get("/listings/:id/edit",async (req,res)=>{
+app.get("/listings/:id/edit",wrapAsync(async (req,res)=>{
+    validateListing;
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("./listings/edit.ejs",{listing}); 
-});
+    })
+);
 
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
+    validateListing;
     let { id } = req.params;
     let updatedData = req.body.listing;
     if (!updatedData.image || !updatedData.image.url || updatedData.image.url.trim() === "") {
@@ -109,7 +129,8 @@ app.put("/listings/:id", async (req, res) => {
 
     await Listing.findByIdAndUpdate(id, updatedData, { runValidators: true, new: true });
     res.redirect(`/listings/${id}`);
-});
+})
+);
 
 //DELETE ROUTE //
 
@@ -121,6 +142,11 @@ app.delete("/listings/:id",async (req,res)=>{
 
 // Error Handling //
 
+app.all("/*splat", (req, res, next) => {
+    next(new ExpressError(404, "Page Not Found"));
+});
+
 app.use((err,req,res,next)=>{
-    res.send("Something went wrong");
+    let { status,msg } = err;
+    res.status(status).render("./listings/error.ejs",{msg});
 });

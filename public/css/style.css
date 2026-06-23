@@ -641,3 +641,32 @@ textarea.form-control {
   .listing-hero { height: 240px; font-size: 3.5rem; }
   .listing-info-main .listing-title { font-size: 1.5rem; }
 }
+
+/* ============================================
+   ERROR PAGE
+   ============================================ */
+.error-box {
+    text-align: center;
+    padding: 80px 24px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.error-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.error-message {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.7;
+}
