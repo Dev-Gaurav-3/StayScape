@@ -7,7 +7,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")  // For duplicate layouts //
 const wrapAsync = require("./utils/wrapasync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schemaValidator.js");
+const { listingSchema , reviewSchema } = require("./schemaValidator.js");
+const Review = require("./models/reviews.js");
 
 let port = 3000;
 
@@ -30,6 +31,15 @@ const validateListing = (req,res,next)=>{
     }
 };
 
+const validateReview = (req,res,next)=>{
+    let { error } = reviewSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400,error)
+    }else{
+        next();
+    }
+}
+
 main() .then(() =>{
     console.log("Connected to DB");
 })
@@ -44,6 +54,7 @@ async function main(){
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended : true}));
+app.use(express.json());
 app.use(methodOverride("_method")); 
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine("ejs",ejsMate);
@@ -92,35 +103,34 @@ app.get("/listings/new",(req,res) =>{
 
 app.get("/listings/:id",async(req,res)=>{
     let {id} = req.params;
-    const aListing = await Listing.findById(id);
+    const aListing = await Listing.findById(id).populate("reviews");
     res.render("./listings/aListing.ejs",{aListing});
 });
 
 // CREATE ROUTE //
 
-app.post("/listings", wrapAsync(async(req,res,next) =>{
+app.post("/listings",validateListing,wrapAsync(async(req,res,next) =>{
     // let {title,desc,img,price,loc,country} = req.body;
     // OR //
     // if(!req.body.listings){    //? USING SCHEMA VALIDATOR INSTEAD OF THIS => JOI package// 
     //     throw new ExpressError(400,"Send valid data for listing");
     // }
-    validateListing;
-    const newListing = new Listing(req.body.listings);
+    const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
     })
 );
 
-app.get("/listings/:id/edit",wrapAsync(async (req,res)=>{
-    validateListing;
+// EDIT ROUTE //
+
+app.get("/listings/:id/edit",validateListing,wrapAsync(async (req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("./listings/edit.ejs",{listing}); 
     })
 );
 
-app.put("/listings/:id", wrapAsync(async (req, res) => {
-    validateListing;
+app.put("/listings/:id",validateListing,wrapAsync(async (req, res) => {
     let { id } = req.params;
     let updatedData = req.body.listing;
     if (!updatedData.image || !updatedData.image.url || updatedData.image.url.trim() === "") {
@@ -128,7 +138,7 @@ app.put("/listings/:id", wrapAsync(async (req, res) => {
     }
 
     await Listing.findByIdAndUpdate(id, updatedData, { runValidators: true, new: true });
-    res.redirect(`/listings/${id}`);
+    res.redirect(`/listings/${id}`);    
 })
 );
 
@@ -140,13 +150,42 @@ app.delete("/listings/:id",async (req,res)=>{
     res.redirect("/listings");
 });
 
+// REVIEWS POST ROUTE //
+
+app.post("/listings/:id/reviews",validateReview,wrapAsync(async (req,res)=>{
+    let { id } = req.params;
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    console.log("New review Saved");
+    res.redirect(`/listings/${id}`);
+}));
+
+// DELETE REVIEW //
+
+app.delete("/listings/:id/reviews/:reviewId",wrapAsync(async (req,res)=>{
+    let { id , reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull : {reviews : reviewId}}); // pull is used so it will remove review id from reviews
+    await Review.findById(reviewId);
+    res.redirect(`/listings/${id}`);
+}));
+
+
 // Error Handling //
 
 app.all("/*splat", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
 });
 
-app.use((err,req,res,next)=>{
-    let { status,msg } = err;
-    res.status(status).render("./listings/error.ejs",{msg});
+app.use((err, req, res, next) => {
+    console.log(err);
+    console.log(err.status);
+
+    let { status = 500, msg = "Something went wrong" } = err;
+    res.status(status).render("./listings/error.ejs", { msg });
 });
