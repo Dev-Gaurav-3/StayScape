@@ -1,13 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StayScape</title>
+    <!-- Bootstrap FIRST -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Your CSS AFTER (so it overrides Bootstrap) -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-    <!-- <h1>StayScape</h1> -->
-    <div class="container"><%- body %></div>
-        <script src="https://kit.fontawesome.com/04ea02bc57.js" crossorigin="anonymous"></script>
-    </body>
+
+    <!-- Navbar (only here, not in child files) -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="/listings">Stay<span>Scape</span></a>
+
+        <form class="navbar-search" action="/listings" method="get">
+            <input type="text" name="search" placeholder="Search destinations, places…"
+                value="<%= typeof search !== 'undefined' ? search : '' %>" autocomplete="off">
+            <button class="navbar-search-btn" type="submit">
+                <i class="fa-solid fa-magnifying-glass" style="color:#ffffff"></i>
+            </button>
+        </form>
+
+        <div class="navbar-actions">
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+            <form action="/listings/new" method="get">
+                <button class="btn btn-primary btn-sm">+ New Listing</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <% if (success && success.length> 0) { %>
+        <div class="flash-container">
+            <div class="flash flash-success" id="flashMsg">
+                <span class="flash-icon">✅</span>
+                <span class="flash-text">
+                    <%= success %>
+                </span>
+                <button class="flash-close" onclick="this.parentElement.parentElement.remove()">✕</button>
+            </div>
+        </div>
+        <% } %>
+            <% if (error && error.length> 0) { %>
+                <div class="flash-container">
+                    <div class="flash flash-error" id="flashMsg">
+                        <span class="flash-icon">❌</span>
+                        <span class="flash-text">
+                            <%= error %>
+                        </span>
+                        <button class="flash-close" onclick="this.parentElement.parentElement.remove()">✕</button>
+                    </div>
+                </div>
+                <% } %>
+
+                    <!-- Page Content -->
+                    <main>
+                        <%- body %>
+                    </main>
+
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2026 <a href="/listings">StayScape</a>. All rights reserved.
+                    </footer>
+
+                    <!-- Scripts (only here, not in child files) -->
+                    <script src="https://kit.fontawesome.com/04ea02bc57.js" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+                        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+                        crossorigin="anonymous"></script>
+                    <%- include("../includes/darkscript.ejs") %>
+                        <script src="/js/script.js"></script>
+
+                        <!-- Flash auto dismiss -->
+                        <script>
+                            setTimeout(() => {
+                                const flash = document.getElementById('flashMsg');
+                                if (flash) {
+                                    flash.style.animation = 'fadeOut 0.5s ease forwards';
+                                    setTimeout(() => flash?.parentElement?.remove(), 500);
+                                }
+                            }, 3500);
+                        </script>
+
+                        <!-- Page specific scripts -->
+                        <%- block('scripts') %>
+
+</body>
+
 </html>

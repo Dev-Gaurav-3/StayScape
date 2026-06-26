@@ -9,6 +9,12 @@ const wrapAsync = require("./utils/wrapasync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema , reviewSchema } = require("./schemaValidator.js");
 const Review = require("./models/reviews.js");
+const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js");
+const cookieParser = require("cookie-parser");
+const session = require("express-session")
+const flash = require("connect-flash");
+
 
 let port = 3000;
 
@@ -19,26 +25,6 @@ app.listen(port,() =>{
 app.get("/",(req,res)=>{
     res.send("Working");
 });
-
-const validateListing = (req,res,next)=>{
-    // let result = listingSchema.validate(req.body);
-    // console.log(result);
-    let { error } = listingSchema.validate(req.body);
-    if(error){
-        throw new ExpressError(400,error);
-    }else{
-        next();
-    }
-};
-
-const validateReview = (req,res,next)=>{
-    let { error } = reviewSchema.validate(req.body);
-    if(error){
-        throw new ExpressError(400,error)
-    }else{
-        next();
-    }
-}
 
 main() .then(() =>{
     console.log("Connected to DB");
@@ -59,6 +45,33 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine("ejs",ejsMate);
 
+app.use(cookieParser());
+const sessionOptions = {
+    secret : "mySuperSecret",
+    resave : false,
+    saveUninitialized : true,
+    cookie : {
+        expires : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //means +7 days 
+        maxAge : 7 * 24 * 60 * 60 * 1000,
+        httpOnly : true,
+    },
+};
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req,res,next)=>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+
+app.use("/listings",listings);
+app.use("/listings/:id/reviews",reviews); // this will not pass the id so to overcome this we use mergeparams in review.js
+
+
+
+
 
 // This line must come BEFORE your route definitions
 // app.get("/testListing",(req,res)=>{
@@ -74,107 +87,6 @@ app.engine("ejs",ejsMate);
 //     res.send("successful testing");
 // });
 
-// INDEX ROUTE //
-app.get("/listings", async (req, res) => {
-    let { search } = req.query;
-    let allListings;
-
-    if (search && search.trim() !== "") {
-        allListings = await Listing.find({
-            $or: [
-                { title:    { $regex: search, $options: "i" } },
-                { location: { $regex: search, $options: "i" } },
-                { country:  { $regex: search, $options: "i" } },
-            ]
-        });
-    } else {
-        allListings = await Listing.find({});
-    }
-
-    res.render("listings/index", { allListings, search: search || "" });
-});
-
-// NEW ROUTE //
-
-app.get("/listings/new",(req,res) =>{
-    res.render("./listings/new.ejs");
-});
-// SHOW ROUTE //
-
-app.get("/listings/:id",async(req,res)=>{
-    let {id} = req.params;
-    const aListing = await Listing.findById(id).populate("reviews");
-    res.render("./listings/aListing.ejs",{aListing});
-});
-
-// CREATE ROUTE //
-
-app.post("/listings",validateListing,wrapAsync(async(req,res,next) =>{
-    // let {title,desc,img,price,loc,country} = req.body;
-    // OR //
-    // if(!req.body.listings){    //? USING SCHEMA VALIDATOR INSTEAD OF THIS => JOI package// 
-    //     throw new ExpressError(400,"Send valid data for listing");
-    // }
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-    })
-);
-
-// EDIT ROUTE //
-
-app.get("/listings/:id/edit",validateListing,wrapAsync(async (req,res)=>{
-    let {id} = req.params;
-    const listing = await Listing.findById(id);
-    res.render("./listings/edit.ejs",{listing}); 
-    })
-);
-
-app.put("/listings/:id",validateListing,wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let updatedData = req.body.listing;
-    if (!updatedData.image || !updatedData.image.url || updatedData.image.url.trim() === "") {
-        delete updatedData.image;
-    }
-
-    await Listing.findByIdAndUpdate(id, updatedData, { runValidators: true, new: true });
-    res.redirect(`/listings/${id}`);    
-})
-);
-
-//DELETE ROUTE //
-
-app.delete("/listings/:id",async (req,res)=>{
-    let {id} = req.params;
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-});
-
-// REVIEWS POST ROUTE //
-
-app.post("/listings/:id/reviews",validateReview,wrapAsync(async (req,res)=>{
-    let { id } = req.params;
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-
-    listing.reviews.push(newReview);
-
-    await newReview.save();
-    await listing.save();
-
-    console.log("New review Saved");
-    res.redirect(`/listings/${id}`);
-}));
-
-// DELETE REVIEW //
-
-app.delete("/listings/:id/reviews/:reviewId",wrapAsync(async (req,res)=>{
-    let { id , reviewId } = req.params;
-    await Listing.findByIdAndUpdate(id, {$pull : {reviews : reviewId}}); // pull is used so it will remove review id from reviews
-    await Review.findById(reviewId);
-    res.redirect(`/listings/${id}`);
-}));
-
 
 // Error Handling //
 
@@ -185,7 +97,7 @@ app.all("/*splat", (req, res, next) => {
 app.use((err, req, res, next) => {
     console.log(err);
     console.log(err.status);
-
     let { status = 500, msg = "Something went wrong" } = err;
+    req.flash("error","Lisitng Does not Exist!");
     res.status(status).render("./listings/error.ejs", { msg });
 });

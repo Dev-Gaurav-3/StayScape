@@ -1,74 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= aListing.title %> — StayScape</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+<% layout("layouts/boiler.ejs") %>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-    <a class="navbar-brand" href="/listings">Stay<span>Scape</span></a>
-
-    <form class="navbar-search" action="/listings" method="get">
-        <input
-            type="text"
-            name="search"
-            placeholder="Search destinations, places…"
-            value="<%= typeof search !== 'undefined' ? search : '' %>"
-            autocomplete="off"
-        >
-        <button class="navbar-search-btn" type="submit">
-            <i class="fa-solid fa-magnifying-glass" style="color: #ffffff"></i>
-        </button>
-    </form>
-
-    <div style="display:flex; align-items:center; gap:12px;">
-        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
-        <form action="/listings/new" method="get">
-            <button class="btn btn-primary btn-sm">+ New Listing</button>
-        </form>
-    </div>
-</nav>
-
-    <!-- Main Content -->
     <div class="page-container">
-
-        <!-- Back -->
         <a class="back-link" href="/listings">Back to listings</a>
 
-        <!-- Hero Image -->
         <div class="listing-hero">
             <% if (aListing.image) { %>
                 <img src="<%= aListing.image %>" alt="<%= aListing.title %>">
-            <% } else { %>
-                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" alt="<%= aListing.title %>">
-            <% } %>
+                <% } else { %>
+                    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" alt="<%= aListing.title %>">
+                    <% } %>
         </div>
 
-        <!-- Details Grid -->
         <div class="listing-details-grid">
-
-            <!-- Left: Info -->
             <div class="listing-info-main">
-                <h1 class="listing-title"><%= aListing.title %></h1>
-                <p class="listing-location">📍 <%= aListing.location %>, <%= aListing.country %></p>
-                <p class="listing-description"><%= aListing.description %></p>
+                <h1 class="listing-title">
+                    <%= aListing.title %>
+                </h1>
+                <p class="listing-location">📍 <%= aListing.location %>, <%= aListing.country %>
+                </p>
+                <p class="listing-description">
+                    <%= aListing.description %>
+                </p>
             </div>
 
-            <!-- Right: Price Box -->
             <div class="price-box">
                 <div class="price">
                     &#8377;<%= aListing.price.toLocaleString("en-IN") %>
-                    <span>/ night</span>
+                        <span>/ night</span>
                 </div>
                 <div class="price-note">Taxes and fees may apply</div>
-
                 <button class="btn btn-primary btn-full">Reserve</button>
-
                 <div class="listing-action-row">
                     <form action="/listings/<%= aListing._id %>/edit" method="get" style="flex:1">
                         <button class="btn btn-outline" style="width:100%">✏️ Edit</button>
@@ -78,139 +39,119 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 
     <!-- Review Section -->
-<div class="review-section">
-    <h4 class="review-heading">Leave a Review</h4>
-
-    <div class="form-card">
-        <form action="/listings/<%= aListing._id %>/reviews" method="POST" novalidate class="needs-validation">
-
-            <div class="form-group">
-                <label class="form-label">Rating</label>
-                <div class="star-rating-wrapper">
-                    <input type="range" min="1" max="5" step="0.01"
-                           name="review[rating]" id="rating"
-                           class="star-slider" value="3">
-                    <div class="star-display" id="starDisplay">⭐⭐⭐</div>
-                    <div class="rating-labels">
-                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+    <div class="review-section">
+        <h4 class="review-heading">Leave a Review</h4>
+        <div class="form-card">
+            <form action="/listings/<%= aListing._id %>/reviews" method="POST" novalidate class="needs-validation">
+                <div class="form-group">
+                    <label class="form-label">Rating</label>
+                    <div class="star-rating-wrapper">
+                        <input type="range" min="1" max="5" step="0.01" name="review[rating]" id="rating"
+                            class="star-slider" value="3">
+                        <div class="star-display" id="starDisplay">⭐⭐⭐</div>
+                        <div class="rating-labels">
+                            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="comment">Comment</label>
-                <textarea
-                    class="form-control"
-                    name="review[comment]"
-                    id="comment"
-                    placeholder="Share your experience…"
-                    rows="4"
-                    required
-                ></textarea>
-                <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please write a comment.</div>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-full">
-                ⭐ Submit Review
-            </button>
-
-        </form>
+                <div class="form-group">
+                    <label class="form-label" for="comment">Comment</label>
+                    <textarea class="form-control" name="review[comment]" id="comment"
+                        placeholder="Share your experience…" rows="4" required></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please write a comment.</div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">⭐ Submit Review</button>
+            </form>
+        </div>
     </div>
-</div>
-    <hr /> 
+
+    <hr />
+
     <!-- Show Reviews -->
-<% if (aListing.reviews && aListing.reviews.length > 0) { %>
-<div class="reviews-list-section">
-    <h4 class="review-heading">
-        Guest Reviews 
-        <span class="reviews-count"><%= aListing.reviews.length %> review<%= aListing.reviews.length > 1 ? 's' : '' %></span>
-    </h4>
-
-    <div class="reviews-grid">
-        <% for (let review of aListing.reviews) { %>
-            <div class="review-card">
-
-    <div class="review-card-header">
-        <div class="reviewer-avatar">
-            <%= review.author ? review.author[0].toUpperCase() : 'G' %>
-        </div>
-        <div class="reviewer-info">
-            <div class="reviewer-name"><%= review.author || 'Guest' %></div>
-            <div class="reviewer-date">
-                <%= new Date(review.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+    <% if (aListing.reviews && aListing.reviews.length> 0) { %>
+        <div class="reviews-list-section">
+            <h4 class="review-heading">
+                Guest Reviews
+                <span class="reviews-count">
+                    <%= aListing.reviews.length %> review<%= aListing.reviews.length> 1 ? 's' : '' %>
+                </span>
+            </h4>
+            <div class="reviews-grid">
+                <% for (let review of aListing.reviews) { %>
+                    <div class="review-card">
+                        <div class="review-card-header">
+                            <div class="reviewer-avatar">
+                                <%= review.author ? review.author[0].toUpperCase() : 'G' %>
+                            </div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">
+                                    <%= review.author || 'Guest' %>
+                                </div>
+                                <div class="reviewer-date">
+                                    <%= new Date(review.createdAt).toLocaleDateString('en-IN', { year: 'numeric' ,
+                                        month: 'long' , day: 'numeric' }) %>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <% for (let i=1; i <=5; i++) { %>
+                                    <span
+                                        class="<%= i <= Math.round(review.rating) ? 'star filled' : 'star' %>">★</span>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <p class="review-comment">
+                            <%= review.comment %>
+                        </p>
+                        <div class="review-card-footer">
+                            <div class="review-rating-badge">
+                                <%= review.rating %> / 5
+                            </div>
+                            <form action="/listings/<%= aListing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                method="POST">
+                                <button type="submit" class="review-delete-btn" title="Delete review">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
             </div>
         </div>
-        <div class="review-stars">
-            <% for (let i = 1; i <= 5; i++) { %>
-                <span class="<%= i <= Math.round(review.rating) ? 'star filled' : 'star' %>">★</span>
+        <% } else { %>
+            <div class="reviews-list-section">
+                <h4 class="review-heading">Guest Reviews</h4>
+                <div class="no-reviews">
+                    <div class="no-reviews-icon">💬</div>
+                    <p>No reviews yet. Be the first to review!</p>
+                </div>
+            </div>
             <% } %>
-        </div>
-    </div>
 
-    <p class="review-comment"><%= review.comment %></p>
-
-    <div class="review-card-footer">
-        <div class="review-rating-badge"><%= review.rating %> / 5</div>
-
-        <form action="/listings/<%= aListing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-            <button type="submit" class="review-delete-btn" title="Delete review">
-                <i class="fa-solid fa-trash-can"></i>
-            </button>
-        </form>
-    </div>
-
-</div>
-        <% } %>
-    </div>
-</div>
-<% } else { %>
-<div class="reviews-list-section">
-    <h4 class="review-heading">Guest Reviews</h4>
-    <div class="no-reviews">
-        <div class="no-reviews-icon">💬</div>
-        <p>No reviews yet. Be the first to review!</p>
-    </div>
-</div>
-<% } %>
-
-    <!-- Footer -->
-    <footer class="footer">
-        &copy; 2026 <a href="/listings">StayScape</a>. All rights reserved.
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <%- include("../includes/darkscript.ejs")%>
-    <script>
-        // Star rating slider
-        const slider = document.getElementById('rating');
-        const starDisplay = document.getElementById('starDisplay');
-
-        const stars = {
-            1: { display: '😓',           label: '— Poor'      },
-            2: { display: '😐',         label: '— Fair'      },
-            3: { display: '😇',       label: '— Good'      },
-            4: { display: '☺️',     label: '— Great'     },
-            5: { display: '🤩',   label: '— Excellent' },
-        };
-
-        if (slider) {
-        const updateStars = (val) => {
-            const rounded = Math.round(val);
-            starDisplay.textContent = stars[rounded].display + ' ' + stars[rounded].label;
-            const pct = ((val - 1) / 4) * 100;
-            slider.style.background = `linear-gradient(to right, var(--brand) ${pct}%, var(--border) ${pct}%)`;
-        };
-
-        updateStars(slider.value);
-        slider.addEventListener('input', () => updateStars(slider.value));
-    }
-    </script>
-    <script src="/js/script.js"></script>
-    <script src="https://kit.fontawesome.com/04ea02bc57.js" crossorigin="anonymous"></script>
-</body>
-</html>
+                <% block('scripts').append(` <script>
+                    const slider = document.getElementById('rating');
+                    const starDisplay = document.getElementById('starDisplay');
+                    const stars = {
+                    1: { display: '😓', label: '— Poor' },
+                    2: { display: '😐', label: '— Fair' },
+                    3: { display: '😇', label: '— Good' },
+                    4: { display: '☺️', label: '— Great' },
+                    5: { display: '🤩', label: '— Excellent' },
+                    };
+                    if (slider) {
+                    const updateStars = (val) => {
+                    const rounded = Math.round(val);
+                    starDisplay.textContent = stars[rounded].display + ' ' + stars[rounded].label;
+                    const pct = ((val - 1) / 4) * 100;
+                    slider.style.background = \`linear-gradient(to right, var(--brand) \${pct}%, var(--border)
+                    \${pct}%)\`;
+                    };
+                    updateStars(slider.value);
+                    slider.addEventListener('input', () => updateStars(slider.value));
+                    }
+                    </script>
+                    `) %>
