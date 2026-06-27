@@ -4,6 +4,7 @@ const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapasync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema , reviewSchema } = require("../schemaValidator.js");
+const { isLoggedIn } = require("../middleware.js");
 
 const validateListing = (req,res,next)=>{
     // let result = listingSchema.validate(req.body);
@@ -38,14 +39,16 @@ router.get("/", async (req, res) => {
 
 // NEW ROUTE //
 
-router.get("/new",(req,res) =>{
+router.get("/new",isLoggedIn("create"),(req,res) =>{
     res.render("./listings/new.ejs");
 });
 // SHOW ROUTE //
 
 router.get("/:id",async(req,res)=>{
     let {id} = req.params;
-    const aListing = await Listing.findById(id).populate("reviews");
+    const aListing = await Listing.findById(id).populate("reviews").populate("owner");
+    // console.log(id);
+    // console.log(aListing);
     res.render("./listings/aListing.ejs",{aListing});
 });
 
@@ -59,6 +62,7 @@ router.post("/",validateListing,wrapAsync(async(req,res,next) =>{
     //     throw new ExpressError(400,"Send valid data for listing");
     // }
     const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("success","New Listing Created!!");
     res.redirect("/listings");
@@ -67,7 +71,7 @@ router.post("/",validateListing,wrapAsync(async(req,res,next) =>{
 
 // EDIT ROUTE //
 
-router.get("/:id/edit",validateListing,wrapAsync(async (req,res)=>{
+router.get("/:id/edit",isLoggedIn("edit"),validateListing,wrapAsync(async (req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("./listings/edit.ejs",{listing}); 
@@ -89,7 +93,7 @@ router.put("/:id",validateListing,wrapAsync(async (req, res) => {
 
 //DELETE ROUTE //
 
-router.delete("/:id",async (req,res)=>{
+router.delete("/:id",isLoggedIn("delete"),async (req,res)=>{
     let {id} = req.params;
     await Listing.findByIdAndDelete(id);
     req.flash("success","Listing Deleted Successfully!!")

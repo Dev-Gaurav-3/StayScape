@@ -207,6 +207,14 @@ body.dark textarea.form-control {
   transform: rotate(20deg);
 }
 
+/* ---- Navbar User Greeting ---- */
+.navbar-user {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 /* ============================================
    NAVBAR RESPONSIVE
    ============================================ */
@@ -216,6 +224,8 @@ body.dark textarea.form-control {
     height: auto;
     padding: 12px 5%;
     gap: 10px;
+    justify-content: center;
+    align-items: center;
   }
 
   .navbar-search {
@@ -1151,4 +1161,22 @@ body.dark .flash-error {
   .listing-info-main .listing-title {
     font-size: 1.5rem;
   }
+}
+
+/* ---- Auth Switch Link ---- */
+.auth-switch {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 20px;
+}
+
+.auth-switch a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
 }

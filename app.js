@@ -9,11 +9,15 @@ const wrapAsync = require("./utils/wrapasync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema , reviewSchema } = require("./schemaValidator.js");
 const Review = require("./models/reviews.js");
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session")
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+const userRouter = require("./routes/user.js");
 
 
 let port = 3000;
@@ -59,16 +63,32 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session()); //? needs to verify user as they browse page by page 
+passport.use(new LocalStrategy(User.authenticate()));
+passport. serializeUser(User.serializeUser()); // serialize means storing user's info into session
+passport.deserializeUser(User.deserializeUser());// 
+
+
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 });
 
+// app.get("/demouser",async (req,res)=>{
+//     let fakeUser = new User({
+//         email : "fakeUser@gmail.com",
+//         username : "IAmFake",
+//     });
+//     let registeredUser = await User.register(fakeUser,"iampassword");
+//     res.send(registeredUser);
+// });
 
-app.use("/listings",listings);
-app.use("/listings/:id/reviews",reviews); // this will not pass the id so to overcome this we use mergeparams in review.js
-
+app.use("/listings",listingRouter);
+app.use("/listings/:id/reviews",reviewRouter); // this will not pass the id so to overcome this we use mergeparams in review.js
+app.use("/",userRouter);
 
 
 

@@ -28,9 +28,22 @@
 
         <div class="navbar-actions">
             <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
-            <form action="/listings/new" method="get">
-                <button class="btn btn-primary btn-sm">+ New Listing</button>
-            </form>
+
+            <% if (currUser) { %>
+                <!-- Logged in -->
+                <span class="navbar-user">👋 <%= currUser.username %></span>
+                <form action="/logout" method="get">
+                    <button class="btn btn-outline btn-sm">Log Out</button>
+                </form>
+                <% } else { %>
+                    <!-- Not logged in -->
+                    <a href="/signup" class="btn btn-outline btn-sm">Sign Up</a>
+                    <a href="/login" class="btn btn-primary btn-sm">Log In</a>
+                    <% } %>
+
+                        <form action="/listings/new" method="get">
+                            <button class="btn btn-primary btn-sm">+ New Listing</button>
+                        </form>
         </div>
     </nav>
 
@@ -75,6 +88,19 @@
                         crossorigin="anonymous"></script>
                     <%- include("../includes/darkscript.ejs") %>
                         <script src="/js/script.js"></script>
+                        <script>
+                            function togglePassword(fieldId, btn) {
+                                const input = document.getElementById(fieldId);
+                                const icon = btn.querySelector('i');
+                                if (input.type === 'password') {
+                                    input.type = 'text';
+                                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                                } else {
+                                    input.type = 'password';
+                                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                                }
+                            }
+                        </script>
 
                         <!-- Flash auto dismiss -->
                         <script>
@@ -82,13 +108,14 @@
                                 const flash = document.getElementById('flashMsg');
                                 if (flash) {
                                     flash.style.animation = 'fadeOut 0.5s ease forwards';
-                                    setTimeout(() => flash?.parentElement?.remove(), 500);
+                                    setTimeout(() => flash?.parentElement?.remove(), 1000);
                                 }
-                            }, 3500);
+                            }, 5000);
                         </script>
 
                         <!-- Page specific scripts -->
                         <%- block('scripts') %>
+
 
 </body>
 
