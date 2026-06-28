@@ -32,10 +32,13 @@ router.get("/login",(req,res)=>{
 });
 
 // authentication will be done by passport so we have to use middleware //
-router.post("/login",saveRedirectUrl,passport.authenticate("local",{failureRedirect : "/login",failureFlash : true}),async(req,res)=>{
-    let { username } = req.body
-    req.flash("success",`Welcome Back, ${username}`);
+router.post("/login", saveRedirectUrl, passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+}), (req, res) => {
+    req.flash("success", `Welcome back ${req.user.username}!`);
     let redirectUrl = res.locals.redirectUrl || "/listings";
+    delete req.session.redirectUrl; // clean up session
     res.redirect(redirectUrl);
 });
 

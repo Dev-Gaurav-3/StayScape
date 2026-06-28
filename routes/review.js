@@ -5,7 +5,7 @@ const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapasync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema , reviewSchema } = require("../schemaValidator.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn ,isAuthor} = require("../middleware.js");
 
 const validateReview = (req,res,next)=>{
     let { error } = reviewSchema.validate(req.body);
@@ -23,7 +23,8 @@ router.post("/",isLoggedIn("add a review in "),validateReview,wrapAsync(async (r
 
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
-
+    newReview.author = req.user._id;
+    console.log(newReview);
     listing.reviews.push(newReview);
 
     await newReview.save();
@@ -35,10 +36,10 @@ router.post("/",isLoggedIn("add a review in "),validateReview,wrapAsync(async (r
 
 // DELETE REVIEW //
 
-router.delete("/:reviewId",isLoggedIn("delete a review from "),wrapAsync(async (req,res)=>{
+router.delete("/:reviewId",isLoggedIn("delete a review from "),isAuthor,wrapAsync(async (req,res)=>{
     let { id , reviewId } = req.params;
     await Listing.findByIdAndUpdate(id, {$pull : {reviews : reviewId}}); // pull is used so it will remove review id from reviews
-    await Review.findById(reviewId);
+    await Review.findByIdAndDelete(reviewId);
     req.flash("success","Review Deleted Successfully");
     res.redirect(`/listings/${id}`);
 }));

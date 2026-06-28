@@ -46,7 +46,10 @@ router.get("/new",isLoggedIn("create"),(req,res) =>{
 
 router.get("/:id",async(req,res)=>{
     let {id} = req.params;
-    const aListing = await Listing.findById(id).populate("reviews").populate("owner");
+        const aListing = await Listing.findById(id).populate({path:"reviews",populate:{
+          path:"author",
+        },
+    }).populate("owner");
     // console.log(id);
     // console.log(aListing);
     res.render("./listings/aListing.ejs",{aListing});
@@ -71,25 +74,32 @@ router.post("/",validateListing,wrapAsync(async(req,res,next) =>{
 
 // EDIT ROUTE //
 
-router.get("/:id/edit",isLoggedIn("edit"),validateListing,wrapAsync(async (req,res)=>{
+router.get("/:id/edit",isLoggedIn("edit"),wrapAsync(async (req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("./listings/edit.ejs",{listing}); 
 })
 );
 
-router.put("/:id",validateListing,wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedIn("edit"), validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let updatedData = req.body.listing;
-    if (!updatedData.image || !updatedData.image.url || updatedData.image.url.trim() === "") {
+
+    let listing = await Listing.findById(id);
+    if (!listing.owner._id.equals(res.locals.currUser._id)) {
+        req.flash("error", "You don't have permission to edit this listing.");
+        return res.redirect(`/listings/${id}`);
+    }
+
+    // If image blank don't overwrite
+    if (!updatedData.image || updatedData.image.trim() === "") {
         delete updatedData.image;
     }
-    
+
     await Listing.findByIdAndUpdate(id, updatedData, { runValidators: true, new: true });
-    req.flash("success","Listing Edited Successfully!!")
-    res.redirect(`/listings/${id}`);    
-})
-);
+    req.flash("success", "Listing Edited Successfully!!");
+    res.redirect(`/listings/${id}`);
+}));
 
 //DELETE ROUTE //
 

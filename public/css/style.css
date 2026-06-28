@@ -321,7 +321,7 @@ body.dark textarea.form-control {
 
 .listing-card-thumb {
   width: 100%;
-  height: 200px;
+  height: 220px;
   background: linear-gradient(135deg, #FFD6DC 0%, #FFEEE8 60%, #FFF3E0 100%);
   overflow: hidden;
   position: relative;
@@ -331,6 +331,7 @@ body.dark textarea.form-control {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -407,7 +408,7 @@ body.dark textarea.form-control {
    ============================================ */
 .listing-hero {
   width: 100%;
-  height: 360px;
+  height: 420px;
   border-radius: var(--radius);
   background: linear-gradient(135deg, #FFD6DC 0%, #FFEEE8 60%, #FFF3E0 100%);
   margin-bottom: 32px;
@@ -419,6 +420,17 @@ body.dark textarea.form-control {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.image-preview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
   display: block;
 }
 

@@ -28,12 +28,11 @@
 
                 <div class="form-group">
                     <label class="form-label" for="image">Image URL</label>
-                    <% if (listing.image && listing.image) { %>
-                        <img src="<%= listing.image %>" alt="Current image"
-                            style="width:100%; max-height:200px; object-fit:cover; border-radius:10px; margin-bottom:10px;">
+                    <% if (listing.image) { %>
+                        <img src="<%= listing.image %>" alt="Current image" class="image-preview">
                         <% } %>
-                            <input class="form-control" type="url" id="image"
-                                placeholder="https://example.com/photo.jpg" value="<%= listing.image %>"
+                            <input class=" form-control" type="url" id="image"
+                                placeholder="https://example.com/photo.jpg" value="<%= listing.image || '' %>"
                                 name="listing[image]">
                             <div class="valid-feedback">Looks good!</div>
                             <div class="invalid-feedback">Please enter a valid image URL.</div>
