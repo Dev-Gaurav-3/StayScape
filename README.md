@@ -93,11 +93,12 @@ Then open [http://localhost:8080](http://localhost:8080) in your browser.
 ---
 
 ## 📸 Screenshots
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
+<img width="1921" height="5236" alt="image" src="https://github.com/user-attachments/assets/27b1e722-97f8-41d6-a461-137739dae2f9" />
+<img width="1921" height="1211" alt="image" src="https://github.com/user-attachments/assets/f962628c-2c6d-4add-b2f1-b912ce3fe9f8" />
+<img width="1921" height="1211" alt="image" src="https://github.com/user-attachments/assets/6c31f849-9c4e-4901-8af1-3be38ceaf4f0" />
+<img width="1921" height="2500" alt="image" src="https://github.com/user-attachments/assets/29f4823c-d6eb-4831-be85-dd79036a59ce" />
+<img width="1921" height="2471" alt="image" src="https://github.com/user-attachments/assets/5d9a9adc-db62-4f21-a967-3bf1fa2e75e3" />
+
 ---
 
 ## 🔮 Upcoming Features
