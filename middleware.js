@@ -5,7 +5,7 @@ module.exports.isLoggedIn = (action) => {
         if (!req.isAuthenticated()) {
             // Save the LISTING page URL, not the delete/action URL
             // For review routes, redirect back to the listing page
-            req.session.redirectUrl = req.headers.referer || "/listings";
+            req.session.redirectUrl = req.originalUrl || "/listings";
             req.flash("error", `You must be logged in first to ${action} a listing!`);
             return res.redirect("/login");
         }
@@ -18,6 +18,17 @@ module.exports.saveRedirectUrl = (req,res,next)=>{
         res.locals.redirectUrl = req.session.redirectUrl; // we are saving this in locals beacuse passport auto delete the session info 
     }
     next();
+};
+
+module.exports.isLoggedInForAction = (action) => {
+    return (req, res, next) => {
+        if (!req.isAuthenticated()) {
+            req.session.redirectUrl = req.headers.referer || "/listings";
+            req.flash("error", `You must be logged in first to ${action}.`);
+            return res.redirect("/login");
+        }
+        next();
+    };
 };
 
 module.exports.isAuthor = async(req,res,next) =>{
