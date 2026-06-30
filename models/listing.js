@@ -9,11 +9,7 @@ const listingSchema = new Schema({
     },
     description: String,
 
-    image: {
-        type: String,
-        default: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-    },
-
+    image: String,
     price: Number,
     location: String,
     country: String,
@@ -26,6 +22,18 @@ const listingSchema = new Schema({
     owner : {
         type: Schema.Types.ObjectId,
         ref : "User",
+    },
+    // mongoose has excellent support for geospatial queries so we store it in GeoJSON format
+    geometry : {
+        type: {
+        type: String, // Don't do `{ location: { type: String } }`
+        enum: ['Point'], // 'location.type' must be 'Point'
+        required: true
+    },
+        coordinates: {
+        type: [Number],
+        required: true
+    },
     }
 });
 

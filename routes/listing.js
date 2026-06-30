@@ -8,10 +8,6 @@ const { isLoggedIn } = require("../middleware.js");
 
 const listingController = require("../controllers/listing.js");
 const { deserializeUser } = require("passport");
-
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
-
 const validateListing = (req,res,next)=>{
     // let result = listingSchema.validate(req.body);
     // console.log(result);
@@ -25,7 +21,7 @@ const validateListing = (req,res,next)=>{
 
 router.route("/")   // When path is same we use router.route
 .get(wrapAsync(listingController.index))
-.post(isLoggedIn,validateListing,wrapAsync(listingController.createListing))
+.post(isLoggedIn(""),validateListing,wrapAsync(listingController.createListing))
 
 // NEW ROUTE //
 router.get("/new",isLoggedIn("create"),listingController.newRenderForm);
