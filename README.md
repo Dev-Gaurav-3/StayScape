@@ -1,6 +1,11 @@
 # StayScape 🏡
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://stayscape-nkjp.onrender.com/listings)
+[![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render)](https://stayscape-nkjp.onrender.com/listings)
+
 A full-stack Airbnb-inspired property rental platform where users can discover, list, and review stays from around the world.
+
+🔗 **Live Demo:** [https://stayscape-nkjp.onrender.com/listings](https://stayscape-nkjp.onrender.com/listings)
 
 ---
 
@@ -27,6 +32,7 @@ A full-stack Airbnb-inspired property rental platform where users can discover, 
 | Auth       | Passport.js (Local Strategy)        |
 | Frontend   | Bootstrap 5, Custom CSS             |
 | Tools      | Git, VS Code                        |
+| Deployment | Render                              |
 
 ---
 
@@ -63,49 +69,24 @@ stayscape/
 
 ---
 
-## 🚀 Getting Started
+---
 
-### Prerequisites
+## ☁️ Deployment
 
-- [Node.js](https://nodejs.org/) (v18+)
-- [MongoDB](https://www.mongodb.com/) (local or Atlas)
+This app is live on **Render**: [https://stayscape-nkjp.onrender.com/listings](https://stayscape-nkjp.onrender.com/listings)
 
-### Installation
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/yourusername/stayscape.git
-cd stayscape
-
-# 2. Install dependencies
-npm install
-
-# 3. Set up environment variables
-#    Create a .env file in the root directory:
-MONGO_URL=mongodb://localhost:27017/stayscape
-
-# 4. Start the development server
-node app.js
-```
-
-Then open [http://localhost:8080](http://localhost:8080) in your browser.
+> ⚠️ Note: The app is hosted on Render's free tier, so it may take **30–60 seconds** to wake up on the first visit if it has been idle.
 
 ---
 
 ## 📸 Screenshots
+
 <img width="1921" height="5236" alt="image" src="https://github.com/user-attachments/assets/27b1e722-97f8-41d6-a461-137739dae2f9" />
 <img width="1921" height="1211" alt="image" src="https://github.com/user-attachments/assets/f962628c-2c6d-4add-b2f1-b912ce3fe9f8" />
 <img width="1921" height="1211" alt="image" src="https://github.com/user-attachments/assets/6c31f849-9c4e-4901-8af1-3be38ceaf4f0" />
-<img width="1921" height="2500" alt="image" src="https://github.com/user-attachments/assets/29f4823c-d6eb-4831-be85-dd79036a59ce" />
-<img width="1921" height="2471" alt="image" src="https://github.com/user-attachments/assets/5d9a9adc-db62-4f21-a967-3bf1fa2e75e3" />
+<img width="1921" height="2810" alt="image" src="https://github.com/user-attachments/assets/8025c91b-ba40-4f7f-99f3-d5d13a2a1784" />
+<img width="1921" height="2877" alt="image" src="https://github.com/user-attachments/assets/bd9bdebb-7d45-4e9f-b545-7a7136e60ec3" />
 
----
-
-## 🔮 Upcoming Features
-
-- [ ] Image upload via Cloudinary
-- [ ] Map integration for listing locations
-- [ ] Deployment on Render / Railway
 
 ---
 
