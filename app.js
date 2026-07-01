@@ -15,11 +15,15 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session")
+const MongoStore = require("connect-mongo").default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const userRouter = require("./routes/user.js");
+const { error } = require("console");
+const dbURL = process.env.ATLAS_DB_URL;
+const Secret = process.env.SECRET;
 
 
 let port = 3000;
@@ -40,7 +44,7 @@ main() .then(() =>{
 })
 
 async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/airbnb');
+    await mongoose.connect(dbURL);
 }
 
 app.set("view engine","ejs");
@@ -52,8 +56,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.engine("ejs",ejsMate);
 
 app.use(cookieParser());
+const store = MongoStore.create({
+    mongoUrl : dbURL,
+    crypto : {
+        secret : Secret,
+    },
+    touchAfter : 24 * 3600,
+});
+
+store.on("error",()=>{
+    console.log("error in Mongo Session Store",error);
+});
+
 const sessionOptions = {
-    secret : "mySuperSecret",
+    store,
+    secret : Secret,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -62,6 +79,8 @@ const sessionOptions = {
         httpOnly : true,
     },
 };
+
+
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -120,6 +139,5 @@ app.use((err, req, res, next) => {
     console.log(err);
     console.log(err.status);
     let { status = 500, msg = "Something went wrong" } = err;
-    req.flash("error","Lisitng Does not Exist!");
     res.status(status).render("./listings/error.ejs", { msg });
 });
