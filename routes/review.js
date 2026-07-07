@@ -23,6 +23,6 @@ router.post("/",isLoggedInForAction("add a review in "),validateReview,wrapAsync
 
 // DELETE REVIEW //
 
-router.delete("/:reviewId",isLoggedInForAction("delete a review from "),isAuthor,wrapAsync(destroyReview));
+router.delete("/:reviewId",isLoggedInForAction("delete a review from a listing"),isAuthor,wrapAsync(destroyReview));
 
 module.exports = router;
