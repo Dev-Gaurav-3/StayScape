@@ -31,7 +31,7 @@
                         <span>/ night</span>
                 </div>
                 <div class="price-note">Taxes and fees may apply</div>
-                <button class="btn btn-primary btn-full">Reserve</button>
+                <button class="btn btn-primary btn-full" onclick="alert(`The Feature is under development`)">Reserve</button>
                 <% if(currUser && currUser._id.equals(aListing.owner._id)){ %>
                     <div class="listing-action-row">
                         <form action="/listings/<%= aListing._id %>/edit" method="get" style="flex:1">
