@@ -11,6 +11,7 @@
     <!-- Your CSS AFTER (so it overrides Bootstrap) -->
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.25.0/mapbox-gl.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
     <!-- Navbar (only here, not in child files) -->
     <nav class="navbar">
 
-        <a class="navbar-brand" href="/listings">
+        <a class="navbar-brand" href="/">
             <!-- <img src="/images/logo.png" alt="StayScape" class="navbar-logo-img"> -->
             Stay<span>Scape</span>
         </a>
@@ -118,6 +119,12 @@
                         </script>
                         <!-- Page specific scripts -->
                         <%- block('scripts') %>
+                        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+                        <script>
+    AOS.init({
+        once:true,
+    });
+</script>
 
 </body>
 

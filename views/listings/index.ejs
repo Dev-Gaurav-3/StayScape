@@ -1,53 +1,107 @@
 <% layout("layouts/boiler.ejs") %>
 
-    <div class="page-container">
-        <div class="listings-header">
-            <h1 class="page-heading">Explore <span>Places</span></h1>
-            <span class="badge">All Listings</span>
+<!-- ===== INDEX HERO ===== -->
+<section class="index-hero">
+    <div class="index-hero-bg">
+        <div class="index-hero-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1920&q=80" alt="Travel" class="index-hero-img">
+    </div>
+    <div class="index-hero-content">
+        <% if (search) { %>
+            <span class="hero-eyebrow">Search Results</span>
+            <h1 class="index-hero-heading">Results for "<span><%= search %></span>"</h1>
+            <p class="index-hero-sub">
+                <%= allListings.length %> stay<%= allListings.length !== 1 ? 's' : '' %> found
+                &nbsp;·&nbsp; <a href="/listings" class="index-clear-search">✕ Clear search</a>
+            </p>
+        <% } else { %>
+            <span class="hero-eyebrow">Discover · Stay · Explore</span>
+            <h1 class="index-hero-heading">Explore <span>Places</span></h1>
+            <p class="index-hero-sub">Find your perfect stay from our curated collection of unique listings.</p>
+        <% } %>
+
+        <!-- Search Bar -->
+        <form class="index-hero-search" action="/listings" method="get">
+            <div class="hero-search-inner">
+                <span class="hero-search-icon">🔍</span>
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by city, country or listing name…"
+                    value="<%= typeof search !== 'undefined' ? search : '' %>"
+                    autocomplete="off"
+                    class="hero-search-input"
+                >
+                <button type="submit" class="hero-search-btn">Search</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- ===== CATEGORY FILTER BAR ===== -->
+<div class="index-filter-bar">
+    <div class="index-filter-inner">
+        <a href="/listings" class="filter-pill <%= !search ? 'active' : '' %>">🌍 All</a>
+        <a href="/listings?search=beach" class="filter-pill <%= search === 'beach' ? 'active' : '' %>">🏖️ Beach</a>
+        <a href="/listings?search=mountain" class="filter-pill <%= search === 'mountain' ? 'active' : '' %>">⛰️ Mountain</a>
+        <a href="/listings?search=city" class="filter-pill <%= search === 'city' ? 'active' : '' %>">🏙️ City</a>
+        <a href="/listings?search=cabin" class="filter-pill <%= search === 'cabin' ? 'active' : '' %>">🛖 Cabin</a>
+        <a href="/listings?search=lake" class="filter-pill <%= search === 'lake' ? 'active' : '' %>">🏞️ Lake</a>
+        <a href="/listings?search=villa" class="filter-pill <%= search === 'villa' ? 'active' : '' %>">🏛️ Villa</a>
+        <a href="/listings?search=farm" class="filter-pill <%= search === 'farm' ? 'active' : '' %>">🌾 Farm</a>
+    </div>
+</div>
+
+<!-- ===== LISTINGS ===== -->
+<div class="index-listings-container">
+
+    <% if (allListings.length === 0) { %>
+        <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <h3>No listings found</h3>
+            <p>No results for "<strong><%= search %></strong>". Try a different search.</p>
+            <a href="/listings" class="btn btn-outline">Clear Search</a>
+        </div>
+    <% } else { %>
+        <div class="index-listings-header">
+            <p class="index-count">
+                <strong><%= allListings.length %></strong> stay<%= allListings.length !== 1 ? 's' : '' %> available
+            </p>
+            <a href="/listings/new" class="btn btn-primary btn-sm">+ Add Listing</a>
         </div>
 
-        <% if (allListings.length===0) { %>
-            <div class="empty-state">
-                <div class="empty-icon">🔍</div>
-                <h3>No listings found</h3>
-                <p>No results for "<strong>
-                        <%= search %>
-                    </strong>". Try a different search.</p>
-                <a href="/listings" class="btn btn-outline">Clear Search</a>
-            </div>
-            <% } else { %>
-                <% if (search) { %>
-                    <p class="search-result-info">
-                        Showing <strong>
-                            <%= allListings.length %>
-                        </strong> result<%= allListings.length> 1 ? 's' : '' %>
-                            for "<strong>
-                                <%= search %>
-                            </strong>"
-                            &nbsp;<a href="/listings" class="clear-search">✕ Clear</a>
-                    </p>
+        <div class="listings-grid">
+            <% for(let listing of allListings){ %>
+            <a class="listing-card" href="/listings/<%= listing._id %>" data-aos="zoom-in-up"
+   data-aos-duration="700">
+
+                <div class="listing-card-thumb">
+                    <% if (listing.image && listing.image.url) { %>
+                        <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+                    <% } else if (listing.image && typeof listing.image === 'string') { %>
+                        <img src="<%= listing.image %>" alt="<%= listing.title %>">
+                    <% } else { %>
+                        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" alt="default">
                     <% } %>
-                        <div class="listings-grid">
-                            <% for(let listing of allListings){ %>
-                                <a class="listing-card" href="/listings/<%= listing._id %>">
-                                    <div class="listing-card-thumb">
-                                        <% if (listing.image) { %>
-                                            <img src="<%= listing.image %>" alt="<%= listing.title %>">
-                                            <% } else { %>
-                                                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470"
-                                                    alt="default">
-                                                <% } %>
-                                    </div>
-                                    <div class="listing-card-body">
-                                        <div class="listing-card-title">
-                                            <%= listing.title %>
-                                        </div>
-                                        <div class="listing-card-location">📍 <%= listing.location %>, <%=
-                                                    listing.country %>
-                                        </div>
-                                    </div>
-                                </a>
-                                <% } %>
+                    <div class="listing-card-overlay">
+                        <span class="listing-card-country"><%= listing.country %></span>
+                    </div>
+                </div>
+
+                <div class="listing-card-body">
+                    <div class="listing-card-title"><%= listing.title %></div>
+                    <div class="listing-card-location">📍 <%= listing.location %></div>
+                    <div class="listing-card-footer">
+                        <div class="listing-card-price">
+                            <strong>₹<%= listing.price.toLocaleString("en-IN") %></strong>
+                            <span>/ night</span>
                         </div>
-                        <% } %>
-    </div>
+                    </div>
+                </div>
+
+            </a>
+            <% } %>
+        </div>
+    <% } %>
+
+</div>

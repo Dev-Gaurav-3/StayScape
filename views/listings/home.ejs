@@ -1,0 +1,167 @@
+<% layout("layouts/boiler.ejs") %>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-bg">
+        <div class="hero-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80" alt="Beautiful landscape" class="hero-img">
+    </div>
+
+    <div class="hero-content">
+        <span class="hero-eyebrow">Discover · Stay · Explore</span>
+        <h1 class="hero-heading">
+            Find your perfect<br><span>getaway</span>
+        </h1>
+        <p class="hero-sub">Thousands of unique stays handpicked for every kind of traveller.</p>
+
+        <!-- Hero Search -->
+        <form class="hero-search" action="/listings" method="get">
+            <div class="hero-search-inner">
+                <span class="hero-search-icon">🔍</span>
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by city, country or listing name…"
+                    autocomplete="off"
+                    class="hero-search-input"
+                >
+                <button type="submit" class="hero-search-btn">Search</button>
+            </div>
+        </form>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-number">500+</span>
+                <span class="hero-stat-label">Listings</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">50+</span>
+                <span class="hero-stat-label">Countries</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">1k+</span>
+                <span class="hero-stat-label">Happy Guests</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="#explore" class="hero-scroll-hint">
+        <span>Scroll to explore</span>
+        <span class="hero-scroll-arrow">↓</span>
+    </a>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="categories-section" id="explore">
+    <div class="section-container" data-aos="fade-up" data-aos-duration="700">
+        <p class="section-eyebrow">Browse by type</p>
+        <h2 class="section-heading">What kind of stay are you looking for?</h2>
+
+        <div class="categories-grid">
+            <a href="/listings?search=beach" class="category-card">
+                <div class="category-icon">🏖️</div>
+                <div class="category-name">Beach</div>
+                <div class="category-desc">Sun, sand & sea views</div>
+            </a>
+            <a href="/listings?search=mountain" class="category-card">
+                <div class="category-icon">⛰️</div>
+                <div class="category-name">Mountain</div>
+                <div class="category-desc">Fresh air & scenic peaks</div>
+            </a>
+            <a href="/listings?search=city" class="category-card">
+                <div class="category-icon">🏙️</div>
+                <div class="category-name">City</div>
+                <div class="category-desc">Urban stays & rooftops</div>
+            </a>
+            <a href="/listings?search=cabin" class="category-card">
+                <div class="category-icon">🛖</div>
+                <div class="category-name">Cabin</div>
+                <div class="category-desc">Cozy & off the grid</div>
+            </a>
+            <a href="/listings?search=lake" class="category-card">
+                <div class="category-icon">🏞️</div>
+                <div class="category-name">Lakeside</div>
+                <div class="category-desc">Calm waters & sunsets</div>
+            </a>
+            <a href="/listings?search=villa" class="category-card">
+                <div class="category-icon">🏛️</div>
+                <div class="category-name">Villa</div>
+                <div class="category-desc">Luxury & private pools</div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== WHY STAYSCAPE ===== -->
+<section class="why-section">
+    <div class="section-container why-grid">
+
+        <div class="why-image-wrap" data-aos="fade-right" data-aos-duration="700">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80" alt="Cozy stay" class="why-image">
+            <div class="why-image-badge">
+                <span class="why-badge-icon">⭐</span>
+                <div>
+                    <div class="why-badge-number">4.9</div>
+                    <div class="why-badge-label">Avg. rating</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="why-content" data-aos="fade-left">
+            <p class="section-eyebrow">Why StayScape</p>
+            <h2 class="section-heading">Travel the way <em>you</em> want</h2>
+            <p class="why-desc">We connect travellers with unique, verified stays around the world — from cozy mountain cabins to beachfront villas. Every listing is reviewed by real guests.</p>
+
+            <div class="why-features">
+                <div class="why-feature">
+                    <div class="why-feature-icon">🔒</div>
+                    <div>
+                        <div class="why-feature-title">Secure Booking</div>
+                        <div class="why-feature-desc">Your data and payments are always protected.</div>
+                    </div>
+                </div>
+                <div class="why-feature">
+                    <div class="why-feature-icon">⭐</div>
+                    <div>
+                        <div class="why-feature-title">Verified Reviews</div>
+                        <div class="why-feature-desc">Real reviews from real guests, every time.</div>
+                    </div>
+                </div>
+                <div class="why-feature">
+                    <div class="why-feature-icon">🗺️</div>
+                    <div>
+                        <div class="why-feature-title">Stays Worldwide</div>
+                        <div class="why-feature-desc">Explore listings across 50+ countries.</div>
+                    </div>
+                </div>
+                <div class="why-feature">
+                    <div class="why-feature-icon">💬</div>
+                    <div>
+                        <div class="why-feature-title">24/7 Support</div>
+                        <div class="why-feature-desc">We're always here when you need us.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <h2 class="cta-heading">Ready to list your space?</h2>
+        <p class="cta-sub">Join thousands of hosts and start earning from your property today.</p>
+        <div class="cta-btns">
+            <% if (currUser) { %>
+                <a href="/listings/new" class="btn btn-white">+ Add your listing</a>
+                <a href="/listings" class="btn btn-outline-white">Browse listings</a>
+            <% } else { %>
+                <a href="/signup" class="btn btn-white">Get started — it's free</a>
+                <a href="/listings" class="btn btn-outline-white">Browse listings</a>
+            <% } %>
+        </div>
+    </div>
+</section>

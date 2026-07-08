@@ -12,7 +12,7 @@ module.exports.signup = async(req,res)=>{
             if(err) return next(err);
             else{
                 req.flash("success",`Hello ${username},StayScape welcomes you!!`);
-                res.redirect("/listings");
+                res.redirect("/");
             }
         })
     }catch(e){
@@ -27,7 +27,7 @@ module.exports.renderLogin = (req,res)=>{
 
 module.exports.login =  (req, res) => {
     req.flash("success", `Welcome back ${req.user.username}!`);
-    let redirectUrl = res.locals.redirectUrl || "/listings";
+    let redirectUrl = res.locals.redirectUrl || "/";
     // delete req.session.redirectUrl; // clean up session
     res.redirect(redirectUrl);
 }
@@ -38,6 +38,6 @@ module.exports.logout = (req,res,next)=>{
             return next(err);
         }
         req.flash("success","Logged out successfully"); 
-        res.redirect("/listings");
+        res.redirect("/");
     });
 }

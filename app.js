@@ -26,14 +26,10 @@ const dbURL = process.env.ATLAS_DB_URL;
 const Secret = process.env.SECRET;
 
 
-let port = 3000;
+let port = 8080;
 
 app.listen(port,() =>{
     console.log(`App is listening at ${port}`);
-});
-
-app.get("/",(req,res)=>{
-    res.redirect("/listings");
 });
 
 main() .then(() =>{
@@ -96,6 +92,10 @@ app.use((req,res,next)=>{
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
     next();
+});
+
+app.get("/",(req,res)=>{
+    res.render("listings/home.ejs");
 });
 
 // app.get("/demouser",async (req,res)=>{
