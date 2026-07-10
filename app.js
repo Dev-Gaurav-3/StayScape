@@ -26,7 +26,7 @@ const dbURL = process.env.ATLAS_DB_URL;
 const Secret = process.env.SECRET;
 
 
-let port = 8080;
+let port = 3000;
 
 app.listen(port,() =>{
     console.log(`App is listening at ${port}`);

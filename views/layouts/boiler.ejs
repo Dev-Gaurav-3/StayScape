@@ -7,18 +7,27 @@
     <title>StayScape</title>
     <!-- Bootstrap FIRST -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <!-- Your CSS AFTER (so it overrides Bootstrap) -->
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.25.0/mapbox-gl.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" type="image" href="/image/logo.ico">
 </head>
 
 <body>
+    <!-- loader -->
+<div id="loader">
+  <div class="loader-inner">
+    <span>Stay</span><span class="loader-scape">Scape</span>
+    <div class="loader-bar">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+</div>
 
     <!-- Navbar (only here, not in child files) -->
     <nav class="navbar">
-
         <a class="navbar-brand" href="/">
             <!-- <img src="/images/logo.png" alt="StayScape" class="navbar-logo-img"> -->
             Stay<span>Scape</span>
@@ -124,6 +133,19 @@
     AOS.init({
         once:true,
     });
+</script>
+<script>
+  // hide loader when page is ready
+  window.addEventListener('load', function() {
+    // wait at least 2.5s before hiding
+    setTimeout(function() {
+      var loader = document.getElementById('loader');
+      loader.style.opacity = '0';
+      setTimeout(function() {
+        loader.style.display = 'none';
+      }, 500); // fade out takes 0.5s
+    }, 700);
+  });
 </script>
 
 </body>
