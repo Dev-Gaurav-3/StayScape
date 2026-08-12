@@ -1,11 +1,11 @@
 # StayScape 🏡
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://stayscape-nkjp.onrender.com/listings)
-[![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render)](https://stayscape-nkjp.onrender.com/listings)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://stayscape-nkjp.onrender.com/)
+[![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render)](https://stayscape-nkjp.onrender.com/)
 
 A full-stack Airbnb-inspired property rental platform where users can discover, list, and review stays from around the world.
 
-🔗 **Live Demo:** [https://stayscape-nkjp.onrender.com/listings](https://stayscape-nkjp.onrender.com/listings)
+🔗 **Live Demo:** [https://stayscape-nkjp.onrender.com/listings](https://stayscape-nkjp.onrender.com/)
 
 ---
 
