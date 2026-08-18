@@ -151,17 +151,44 @@
 
 <!-- ===== CTA ===== -->
 <section class="cta-section">
-    <div class="cta-inner">
-        <h2 class="cta-heading">Ready to list your space?</h2>
-        <p class="cta-sub">Join thousands of hosts and start earning from your property today.</p>
-        <div class="cta-btns">
+    <div class="cta-grid">
+
+        <!-- Left Card - For Guests -->
+        <div class="cta-card cta-guest">
+            <div class="cta-card-tag">For Travellers</div>
+            <h3 class="cta-card-heading">Your next adventure<br>starts here</h3>
+            <p class="cta-card-desc">Browse thousands of unique stays handpicked from around the world. Beach, mountain, city — we have it all.</p>
+            <ul class="cta-card-perks">
+                <li>🏖️ 500+ unique listings</li>
+                <li>⭐ Verified guest reviews</li>
+                <li>🔒 Safe & secure booking</li>
+            </ul>
+            <a href="/listings" class="btn btn-primary">Explore Listings →</a>
+        </div>
+
+        <!-- Divider -->
+        <div class="cta-divider">
+            <div class="cta-divider-line"></div>
+            <span class="cta-divider-text">or</span>
+            <div class="cta-divider-line"></div>
+        </div>
+
+        <!-- Right Card - For Hosts -->
+        <div class="cta-card cta-host">
+            <div class="cta-card-tag host">For Hosts</div>
+            <h3 class="cta-card-heading">Turn your space<br>into income</h3>
+            <p class="cta-card-desc">List your property on StayScape and reach thousands of travellers looking for their perfect stay.</p>
+            <ul class="cta-card-perks">
+                <li>💰 Earn on your terms</li>
+                <li>📋 Easy listing management</li>
+                <li>💬 Direct guest reviews</li>
+            </ul>
             <% if (currUser) { %>
-                <a href="/listings/new" class="btn btn-white">+ Add your listing</a>
-                <a href="/listings" class="btn btn-outline-white">Browse listings</a>
+                <a href="/listings/new" class="btn btn-primary">+ Add your listing</a>
             <% } else { %>
-                <a href="/signup" class="btn btn-white">Get started — it's free</a>
-                <a href="/listings" class="btn btn-outline-white">Browse listings</a>
+                <a href="/signup" class="btn btn-primary">Get started — it's free</a>
             <% } %>
         </div>
+
     </div>
 </section>
