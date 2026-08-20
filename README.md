@@ -1,11 +1,19 @@
-# StayScape 🏡
-
+<div align="center">
+<pre>
+███████╗████████╗ █████╗ ██╗   ██╗███████╗ ██████╗ █████╗ ██████╗ ███████╗
+██╔════╝╚══██╔══╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝
+███████╗   ██║   ███████║ ╚████╔╝ ███████╗██║     ███████║██████╔╝█████╗
+╚════██║   ██║   ██╔══██║  ╚██╔╝  ╚════██║██║     ██╔══██║██╔═══╝ ██╔══╝
+███████║   ██║   ██║  ██║   ██║   ███████║╚██████╗██║  ██║██║     ███████╗
+╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚══════╝
+</pre>
+</div>
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://stayscape-nkjp.onrender.com/)
 [![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render)](https://stayscape-nkjp.onrender.com/)
 
 A full-stack Airbnb-inspired property rental platform where users can discover, list, and review stays from around the world.
 
-🔗 **Live Demo:** [https://stayscape-nkjp.onrender.com/listings](https://stayscape-nkjp.onrender.com/)
+🔗 **Live Demo:** [https://stayscape-nkjp.onrender.com/](https://stayscape-nkjp.onrender.com/)
 
 ---
 
@@ -73,7 +81,7 @@ stayscape/
 
 ## ☁️ Deployment
 
-This app is live on **Render**: [https://stayscape-nkjp.onrender.com/listings](https://stayscape-nkjp.onrender.com/listings)
+This app is live on **Render**: [https://stayscape-nkjp.onrender.com](https://stayscape-nkjp.onrender.com)
 
 > ⚠️ Note: The app is hosted on Render's free tier, so it may take **30–60 seconds** to wake up on the first visit if it has been idle.
 
@@ -90,6 +98,13 @@ This app is live on **Render**: [https://stayscape-nkjp.onrender.com/listings](h
 
 ---
 
-## 👤 Author
 
-**Gaurav Suryavanshi**
+<div align="center">
+<pre>
+
+## 👤 Author
+**Made with ❤️ by Gaurav Suryavanshi**
+
+</pre>
+</div>
+
