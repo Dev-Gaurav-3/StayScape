@@ -28,39 +28,27 @@
 
     <!-- Navbar (only here, not in child files) -->
     <nav class="navbar">
-        <a class="navbar-brand" href="/">
-            <!-- <img src="/images/logo.png" alt="StayScape" class="navbar-logo-img"> -->
-            Stay<span>Scape</span>
-        </a>
+    <a class="navbar-brand" href="/">Stay<span>Scape</span></a>
 
-        <form class="navbar-search" action="/listings" method="get">
-            <input type="text" name="search" placeholder="Search destinations, places…"
-                value="<%= typeof search !== 'undefined' ? search : '' %>" autocomplete="off">
-            <button class="navbar-search-btn" type="submit">
-                <i class="fa-solid fa-magnifying-glass" style="color:#ffffff"></i>
-            </button>
-        </form>
+    <div class="navbar-segment">
+        <a href="/" class="segment-btn">Home</a>
+        <a href="/listings" class="segment-btn">Explore</a>
+        <a href="/listings/new" class="segment-btn">Host</a>
+    </div>
 
-        <div class="navbar-actions">
-            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
-
-            <% if (currUser) { %>
-                <!-- Logged in -->
-                <span class="navbar-user">👋 <%= currUser.username %></span>
-                <form action="/logout" method="get">
-                    <button class="btn btn-outline btn-sm">Log Out</button>
-                </form>
-                <% } else { %>
-                    <!-- Not logged in -->
-                    <a href="/signup" class="btn btn-outline btn-sm">Sign Up</a>
-                    <a href="/login" class="btn btn-primary btn-sm">Log In</a>
-                    <% } %>
-
-                        <form action="/listings/new" method="get">
-                            <button class="btn btn-primary btn-sm">+ New Listing</button>
-                        </form>
-        </div>
-    </nav>
+    <div class="navbar-actions">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <% if (currUser) { %>
+            <span class="navbar-user">👋 <%= currUser.username %></span>
+            <form action="/logout" method="post">
+                <button class="btn btn-outline btn-sm">Log Out</button>
+            </form>
+        <% } else { %>
+            <a href="/signup" class="btn btn-outline btn-sm">Sign Up</a>
+            <a href="/login" class="btn btn-primary btn-sm">Log In</a>
+        <% } %>
+    </div>
+</nav>
 
     <!-- Flash Messages -->
     <% if (success && success.length> 0) { %>
@@ -146,6 +134,16 @@
       }, 500); // fade out takes 0.5s
     }, 700);
   });
+</script>
+
+<script>
+    // highlight current page link
+    const links = document.querySelectorAll('.navbar-segment a');
+    links.forEach(link => {
+        if (link.href === window.location.href) {
+            link.classList.add('active');
+        }
+    });
 </script>
 
 </body>
