@@ -8,6 +8,7 @@
  ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚══════╝
 </pre>
 </div>
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://stayscape-nkjp.onrender.com/)
 [![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render)](https://stayscape-nkjp.onrender.com/)
 
@@ -103,7 +104,7 @@ This app is live on **Render**: [https://stayscape-nkjp.onrender.com](https://st
 <pre>
 
 ## 👤 Author
-**Made with ❤️ by Gaurav Suryavanshi**
+**Made with ❤️ by Gaurav**
 
 </pre>
 </div>
