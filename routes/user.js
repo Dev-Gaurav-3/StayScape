@@ -18,6 +18,6 @@ router.post("/login", saveRedirectUrl, passport.authenticate("local", {
     failureFlash: true,
 }),login);
 
-router.get("/logout",logout);
+router.post("/logout",logout);
 
 module.exports = router;
